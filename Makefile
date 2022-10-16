@@ -9,8 +9,10 @@ all:
 static:
 	CGO_ENABLED=0 go build -ldflags "-X main.version=$(version) -extldflags \"-static\"" -o $(binfile).static $(binfile).go
 
-arm:
-	GOARCH=arm go build  -ldflags "-X main.version=$(version) -extldflags \"-static\"" -o $(binfile).arm $(binfile).go
-	GOARCH=arm64 go build  -ldflags "-X main.version=$(version) -extldflags \"-static\"" -o $(binfile).arm64 $(binfile).go
-version:
-	@echo $(version)
+arch:
+	mkdir -p bin
+	CGO_ENABLED=0 GOARCH=arm go build  -ldflags "-X main.version=$(version) -extldflags \"-static\"" -o bin/$(binfile).arm $(binfile).go
+	CGO_ENABLED=0 GOARCH=arm64 go build  -ldflags "-X main.version=$(version) -extldflags \"-static\"" -o bin/$(binfile).aarch64 $(binfile).go
+	CGO_ENABLED=0 GOARCH=amd64 go build  -ldflags "-X main.version=$(version) -extldflags \"-static\"" -o bin/$(binfile).amd64 $(binfile).go
+	CGO_ENABLED=0 GOARCH=386 go build  -ldflags "-X main.version=$(version) -extldflags \"-static\"" -o bin/$(binfile).386 $(binfile).go
+	sha256sum bin/dpp.* > bin/Checksum
