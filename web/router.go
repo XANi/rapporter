@@ -46,6 +46,7 @@ func New(cfg Config, webFS fs.FS) (backend *WebBackend, err error) {
 	}
 	r := gin.New()
 	w.r = r
+	w.db = cfg.DB
 	gin.SetMode(gin.ReleaseMode)
 	t, err := template.ParseFS(webFS, "templates/*.tmpl")
 	if err != nil {
@@ -84,6 +85,9 @@ func New(cfg Config, webFS fs.FS) (backend *WebBackend, err error) {
 			"notfound": c.Request.URL.Path,
 		})
 	})
+	rav1 := r.Group("/api/v1")
+	rav1.POST("/:device_id/:component_id", w.V1PostReport)
+	rav1.POST("/:device_id/:component_id/:status", w.V1PostReport)
 
 	return &w, nil
 }

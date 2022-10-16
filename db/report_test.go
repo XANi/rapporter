@@ -11,7 +11,7 @@ func TestDB_AddReport(t *testing.T) {
 	r := Report{
 		Title:       "t-" + t.Name(),
 		DeviceID:    "d-" + t.Name(),
-		ComponentId: "c-" + t.Name(),
+		ComponentID: "c-" + t.Name(),
 		State:       mon.StateOk,
 		Content:     "**test report**",
 	}
@@ -30,7 +30,7 @@ func TestDB_DeleteReport(t *testing.T) {
 	r := Report{
 		Title:       "t-" + t.Name(),
 		DeviceID:    "d-" + t.Name(),
-		ComponentId: "c-" + t.Name(),
+		ComponentID: "c-" + t.Name(),
 		State:       mon.StateOk,
 		Content:     "**test report**",
 		TTL:         600,
@@ -40,7 +40,7 @@ func TestDB_DeleteReport(t *testing.T) {
 	reports, err := db.GetLatestReports()
 	require.NoError(t, err)
 	assert.Contains(t, reports, r)
-	err = db.DeleteReport(r.DeviceID, r.ComponentId)
+	err = db.DeleteReport(r.DeviceID, r.ComponentID)
 	assert.NoError(t, err)
 	reports, err = db.GetLatestReports()
 	require.NoError(t, err)

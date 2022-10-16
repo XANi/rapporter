@@ -48,6 +48,9 @@ func New(cfg Config) (*DB, error) {
 	if cfg.DefaultExpiryInterval == 0 {
 		cfg.DefaultExpiryInterval = time.Hour * 24 * 8
 	}
+	if cfg.MaxExpiryInterval == 0 {
+		cfg.MaxExpiryInterval = time.Hour * 24 * 30
+	}
 	if cfg.HistoryDays == 0 {
 		cfg.HistoryDays = 365 * 5
 	}

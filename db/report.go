@@ -6,9 +6,6 @@ import (
 )
 
 func (db *DB) AddReport(r Report) (id int, err error) {
-	reportH := ReportHistory{
-		Report: r,
-	}
 	if r.TTL == 0 {
 		r.TTL = uint(db.cfg.DefaultExpiryInterval.Seconds())
 	}
@@ -18,6 +15,9 @@ func (db *DB) AddReport(r Report) (id int, err error) {
 	reportS := ReportState{
 		ExpiresAt: time.Now().Add(time.Duration(r.TTL) * time.Second),
 		Report:    r,
+	}
+	reportH := ReportHistory{
+		Report: r,
 	}
 	tx := db.d.Begin()
 	defer tx.Rollback()
@@ -33,7 +33,7 @@ func (db *DB) AddReport(r Report) (id int, err error) {
 }
 
 func (db *DB) DeleteReport(deviceID string, componentID string) error {
-	q := db.d.Delete(&ReportState{}, &Report{DeviceID: deviceID, ComponentId: componentID})
+	q := db.d.Delete(&ReportState{}, &Report{DeviceID: deviceID, ComponentID: componentID})
 
 	if q.Error == gorm.ErrRecordNotFound {
 		return nil
