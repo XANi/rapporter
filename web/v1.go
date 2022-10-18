@@ -108,3 +108,13 @@ func (w *WebBackend) V1PostReport(c *gin.Context) {
 
 	c.String(http.StatusOK, c.ContentType())
 }
+func (w *WebBackend) V1DeleteReport(c *gin.Context) {
+	deviceId := c.Param("device_id")
+	componentId := c.Param("component_id")
+	err := w.db.DeleteReport(deviceId, componentId)
+	if err != nil {
+		c.AbortWithError(http.StatusInternalServerError, err)
+	} else {
+		c.String(http.StatusOK, "ok")
+	}
+}

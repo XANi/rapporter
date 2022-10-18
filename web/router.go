@@ -99,8 +99,9 @@ func New(cfg Config, webFS fs.FS) (backend *WebBackend, err error) {
 		})
 	})
 	rav1 := r.Group("/api/v1")
-	rav1.POST("/:device_id/:component_id", w.V1PostReport)
-	rav1.POST("/:device_id/:component_id/:status", w.V1PostReport)
+	rav1.POST("/report/:device_id/:component_id", w.V1PostReport)
+	rav1.DELETE("/report/:device_id/:component_id", w.V1DeleteReport)
+	rav1.POST("/report/:device_id/:component_id/:status", w.V1PostReport)
 	return &w, nil
 }
 

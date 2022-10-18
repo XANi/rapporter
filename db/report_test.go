@@ -31,6 +31,7 @@ func TestDB_DeleteReport(t *testing.T) {
 		Title:       "t-" + t.Name(),
 		DeviceID:    "d-" + t.Name(),
 		ComponentID: "c-" + t.Name(),
+		Category:    "cat-" + t.Name(),
 		State:       mon.StateOk,
 		Content:     "**test report**",
 		TTL:         600,

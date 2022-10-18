@@ -24,3 +24,21 @@ table, th, td {
 .unk {
   background: #14463e
 }
+
+table, th, td {
+  border: 1px solid;
+    border-color: #aaaaffaa;
+     border-collapse: collapse;
+    padding: 2px 8px;
+}
+th {
+    font-weight: bold;
+}
+
+
+
+a {
+  color: #aaf;
+  text-decoration: none;
+}
+ a:hover{ text-decoration: none; }

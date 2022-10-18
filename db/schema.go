@@ -7,13 +7,14 @@ import (
 )
 
 type Report struct {
-	Title       string `gorm:"length:2048"`
-	CreatedAt   time.Time
-	DeviceID    string `gorm:"primaryKey;length:255"`
-	ComponentID string `gorm:"primaryKey;length:255"`
-	TTL         uint
-	State       mon.State
-	Content     string
+	Title       string    `gorm:"length:2048" json:"title"`
+	CreatedAt   time.Time `json:"created_at"`
+	Category    string    `json:"category" gorm:"length:255"`
+	DeviceID    string    `gorm:"primaryKey;length:255" json:"device_id"`
+	ComponentID string    `gorm:"primaryKey;length:255" json:"component_id"`
+	TTL         uint      `json:"ttl"`
+	State       mon.State `json:"state"`
+	Content     string    `json:"content"`
 }
 
 func (r *Report) Validate() error {
@@ -25,6 +26,9 @@ func (r *Report) Validate() error {
 	}
 	if len(r.ComponentID) == 0 || len(r.ComponentID) > 2048 {
 		return fmt.Errorf("component_id needs to be between 1 and 2048 characters")
+	}
+	if len(r.Category) > 255 {
+		return fmt.Errorf("categoru needs to be shorter than 255 characters")
 	}
 	if r.State < 1 || r.State > mon.StateUnknown {
 		return fmt.Errorf("state must be between 1(ok) and 4(unknown)")
