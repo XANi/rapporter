@@ -98,6 +98,19 @@ func New(cfg Config, webFS fs.FS) (backend *WebBackend, err error) {
 			"reports": reports,
 		})
 	})
+	r.GET("/report/:device_id/:component_id", func(c *gin.Context) {
+		deviceId := c.Param("device_id")
+		componentId := c.Param("component_id")
+		report, err := w.db.GetReport(deviceId, componentId)
+		if err != nil {
+			c.String(http.StatusNotFound, "not found")
+			return
+		}
+		c.HTML(http.StatusOK, "report.tmpl", gin.H{
+			"title":  c.Request.RemoteAddr,
+			"report": report,
+		})
+	})
 	rav1 := r.Group("/api/v1")
 	rav1.POST("/report/:device_id/:component_id", w.V1PostReport)
 	rav1.DELETE("/report/:device_id/:component_id", w.V1DeleteReport)

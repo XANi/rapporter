@@ -13,8 +13,7 @@
     <th>Category</th>
     <th>ComponentID</th>
     <th>State</th>
-    <th>Last Update</th>
-    <th>Content</th>
+    <th>Created at</th>
 </tr>
 {{ range .reports }}
     <!-- {{ .State }} -->
@@ -31,10 +30,9 @@
     {{ end }}
     <td>{{ .DeviceID }}</td>
     <td>{{ .Category }}</td>
-    <td><a class="report-link" href="/api/vi/report/{{ .DeviceID }}/{{ .ComponentID }}">{{ .ComponentID }}</a></td>
+    <td><a class="report-link" href="/report/{{ .DeviceID }}/{{ .ComponentID }}">{{ .ComponentID }}</a></td>
     <td>{{ .State }}</td>
     <td>{{ .CreatedAt.Format "2006-01-02 15:04:05" }}</td>
-    <td>{{ .Content }}</td>
 </tr>
 {{ end }}
 </table>

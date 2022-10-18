@@ -49,3 +49,14 @@ func (db *DB) GetLatestReports() ([]Report, error) {
 	}
 	return r, q.Error
 }
+func (db *DB) GetReport(deviceId string, componentId string) (Report, error) {
+	r := Report{}
+	q := db.d.Model(&ReportState{}).Limit(1).Find(&r, &Report{
+		DeviceID:    deviceId,
+		ComponentID: componentId,
+	})
+	if q.Error == gorm.ErrRecordNotFound {
+		return r, nil
+	}
+	return r, q.Error
+}

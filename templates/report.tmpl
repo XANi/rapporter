@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/s/s.css">
+<title>{{ .title }}</title>
+</head>
+<body>
+
+<br>DeviceID: {{ .report.DeviceID }}
+<br>Category: {{ .report.Category }}
+<br>ComponentID: /{{ .report.ComponentID }}
+<br>State:
+{{ if eq .report.State 1 }}
+OK
+{{ else if eq .report.State 2 }}
+Warning
+{{ else if eq .report.State 3 }}
+Critical
+{{ else if eq .report.State 4 }}
+Unknown
+{{ else }}
+Invalid
+{{ end }}
+<br>Created at: {{ .report.CreatedAt.Format "2006-01-02 15:04:05" }}
+
+<br>{{ .report.Content }}
+
+</body>
