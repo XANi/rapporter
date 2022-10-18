@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/s/s.css">
+<title>{{ .title }}</title>
+</head>
+<body>
+
+<table>
+<tr>
+    <th>DeviceID</th>
+    <th>ComponentID</th>
+    <th>State</th>
+    <th>TTL</th>
+    <th>Content</th>
+</tr>
+{{ range .reports }}
+    {{ if eq .State 1 }}
+<tr class="ok">
+    {{ else if eq .State 2 }}
+<tr class="warn">
+    {{ else if eq .State 2 }}
+<tr class="crit">
+    {{ else if eq .State 3 }}
+<tr class="unk">
+    {{ else }}
+<tr>
+    {{ end }}
+    <td>{{ .DeviceID }}</td>
+    <td>{{ .ComponentID }}</td>
+    <td>{{ .State }}</td>
+    <td>{{ .TTL }}</td>
+    <td>{{ .Content }}</td>
+</tr>
+{{ end }}
+</table>
+
+</body>
+</html>

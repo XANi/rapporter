@@ -4,3 +4,23 @@ body {
   color: lime;
 
 }
+table, th, td {
+  border: 1px solid;
+  padding: 0.4em;
+}
+
+.ok {
+  background: #1c4412
+}
+
+.warn {
+  background: #564017
+}
+
+.crit {
+  background: #541717
+}
+
+.unk {
+  background: #14463e
+}

@@ -8,6 +8,7 @@ import (
 
 type Report struct {
 	Title       string `gorm:"length:2048"`
+	CreatedAt   time.Time
 	DeviceID    string `gorm:"primaryKey;length:255"`
 	ComponentID string `gorm:"primaryKey;length:255"`
 	TTL         uint
@@ -33,20 +34,17 @@ func (r *Report) Validate() error {
 
 type ReportState struct {
 	Report    Report `gorm:"embedded"`
-	CreatedAt time.Time
 	UpdatedAt time.Time
 	ExpiresAt time.Time
 }
 
 type ReportHistory struct {
-	ID        uint   `gorm:"primarykey"`
-	Report    Report `gorm:"embedded"`
-	CreatedAt time.Time
+	ID     uint   `gorm:"primarykey"`
+	Report Report `gorm:"embedded"`
 }
 type ReportHistoryMigrate struct {
 	ID          uint   `gorm:"primarykey"`
 	Report      Report `gorm:"embedded"`
-	CreatedAt   time.Time
 	DeviceID    string `gorm:"length:255"`
 	ComponentId string `gorm:"length:255"`
 }

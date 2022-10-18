@@ -54,7 +54,11 @@ func New(cfg Config, webFS fs.FS) (backend *WebBackend, err error) {
 	}
 	r.SetHTMLTemplate(t)
 	// for zap logging
-	r.Use(ginzap.Ginzap(w.al.Desugar(), time.RFC3339, false))
+	r.Use(ginzap.GinzapWithConfig(w.al.Desugar(), &ginzap.Config{
+		TimeFormat: time.RFC3339,
+		UTC:        false,
+		SkipPaths:  []string{"/_status/health", "/_status/metrics"},
+	}))
 	//r.Use(ginzap.RecoveryWithZap(w.al.Desugar(), true))
 	// basic logging to stdout
 	//r.Use(gin.LoggerWithWriter(os.Stdout))
@@ -64,6 +68,7 @@ func New(cfg Config, webFS fs.FS) (backend *WebBackend, err error) {
 	r.GET("/_status/health", gin.WrapF(mon.HandleHealthcheck))
 	r.HEAD("/_status/health", gin.WrapF(mon.HandleHealthcheck))
 	r.GET("/_status/metrics", gin.WrapF(mon.HandleMetrics))
+	defer mon.GlobalStatus.Update(mon.StatusOk, "ok")
 	// healthcheckHandler, haproxyStatus := mon.HandleHealthchecksHaproxy()
 	// r.GET("/_status/metrics", gin.WrapF(healthcheckHandler))
 
@@ -85,10 +90,17 @@ func New(cfg Config, webFS fs.FS) (backend *WebBackend, err error) {
 			"notfound": c.Request.URL.Path,
 		})
 	})
+	r.GET("/list", func(c *gin.Context) {
+		reports, _ := w.db.GetLatestReports()
+		cfg.Logger.Infof("reports: %d", len(reports))
+		c.HTML(http.StatusOK, "list.tmpl", gin.H{
+			"title":   c.Request.RemoteAddr,
+			"reports": reports,
+		})
+	})
 	rav1 := r.Group("/api/v1")
 	rav1.POST("/:device_id/:component_id", w.V1PostReport)
 	rav1.POST("/:device_id/:component_id/:status", w.V1PostReport)
-
 	return &w, nil
 }
 

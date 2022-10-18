@@ -39,11 +39,17 @@ func TestDB_DeleteReport(t *testing.T) {
 	require.NoError(t, err)
 	reports, err := db.GetLatestReports()
 	require.NoError(t, err)
+	for id, _ := range reports {
+		reports[id].CreatedAt = r.CreatedAt
+	}
 	assert.Contains(t, reports, r)
 	err = db.DeleteReport(r.DeviceID, r.ComponentID)
 	assert.NoError(t, err)
 	reports, err = db.GetLatestReports()
 	require.NoError(t, err)
+	for id, _ := range reports {
+		reports[id].CreatedAt = r.CreatedAt
+	}
 	assert.NotContains(t, reports, r)
 
 }
