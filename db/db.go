@@ -17,6 +17,7 @@ type Config struct {
 	DefaultExpiryInterval time.Duration `yaml:"default_expiry"`
 	MaxExpiryInterval     time.Duration `yaml:"max_expiry"`
 	HistoryDays           int           `yaml:"history_days"`
+	testMode              bool
 }
 
 type DB struct {
@@ -72,7 +73,9 @@ func New(cfg Config) (*DB, error) {
 			return nil, fmt.Errorf("error migrating %T: %s", table, err)
 		}
 	}
-	go dbObj.cleaner()
+	if !cfg.testMode {
+		go dbObj.cleaner()
+	}
 	return &dbObj, err
 }
 

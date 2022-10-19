@@ -35,7 +35,8 @@ func DBTestInit(t *testing.T) *DB {
 		DSN:    dsn,
 		DbType: "sqlite",
 		//DbType: "pgsql",
-		Logger: zaptest.NewLogger(t).Sugar(),
+		Logger:   zaptest.NewLogger(t).Sugar(),
+		testMode: true,
 	})
 
 	if err != nil {
