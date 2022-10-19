@@ -103,7 +103,10 @@ func New(cfg Config, webFS fs.FS) (backend *WebBackend, err error) {
 		componentId := c.Param("component_id")
 		report, err := w.db.GetReport(deviceId, componentId)
 		if err != nil {
-			c.String(http.StatusNotFound, "not found")
+			c.Header("Refresh", "1;/list")
+			c.HTML(http.StatusNotFound, "404.tmpl", gin.H{
+				"notfound": c.Request.URL.Path,
+			})
 			return
 		}
 		content := w.markdownParse(report.Content)

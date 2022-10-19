@@ -1,6 +1,7 @@
 package db
 
 import (
+	"fmt"
 	"gorm.io/gorm"
 	"time"
 )
@@ -55,8 +56,8 @@ func (db *DB) GetReport(deviceId string, componentId string) (Report, error) {
 		DeviceID:    deviceId,
 		ComponentID: componentId,
 	})
-	if q.Error == gorm.ErrRecordNotFound {
-		return r, nil
+	if q.Error == gorm.ErrRecordNotFound || q.RowsAffected == 0 {
+		return r, fmt.Errorf("not found")
 	}
 	return r, q.Error
 }

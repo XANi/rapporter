@@ -24,6 +24,28 @@ Invalid
 {{ end }}
 <br>Updated at: {{ .report.UpdatedAt.Format "2006-01-02 15:04:05" }}
 
-<br>{{ .content }}
+<br>{{ .content }}<br>
+
+<script>
+    function sendDelete(event){
+        console.log(event);
+        var xhr = new XMLHttpRequest();
+        xhr.open("DELETE", event.target.href);
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                console.log(xhr.status);
+                console.log(xhr.responseText);
+            }};
+        xhr.onload= function() {
+          window.location.href = window.location.href;
+        }
+
+        xhr.send();
+        event.preventDefault();
+    }
+</script>
+
+<a class="delete-link" onclick="sendDelete(event)" href="/api/v1/report/{{ .report.DeviceID }}/{{ .report.ComponentID }}">delete</a></td>
 
 </body>
