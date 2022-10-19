@@ -7,8 +7,9 @@ import (
 )
 
 type Report struct {
-	Title       string    `gorm:"length:2048" json:"title"`
-	CreatedAt   time.Time `json:"created_at"`
+	Title       string `gorm:"length:2048" json:"title"`
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
 	Category    string    `json:"category" gorm:"length:255"`
 	DeviceID    string    `gorm:"primaryKey;length:255" json:"device_id"`
 	ComponentID string    `gorm:"primaryKey;length:255" json:"component_id"`
@@ -38,7 +39,6 @@ func (r *Report) Validate() error {
 
 type ReportState struct {
 	Report    Report `gorm:"embedded"`
-	UpdatedAt time.Time
 	ExpiresAt time.Time
 }
 

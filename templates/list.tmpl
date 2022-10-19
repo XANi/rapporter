@@ -13,7 +13,7 @@
     <th>Category</th>
     <th>ComponentID</th>
     <th>State</th>
-    <th>Created at</th>
+    <th>Last update</th>
 </tr>
 {{ range .reports }}
     <!-- {{ .State }} -->
@@ -32,7 +32,7 @@
     <td>{{ .Category }}</td>
     <td><a class="report-link" href="/report/{{ .DeviceID }}/{{ .ComponentID }}">{{ .ComponentID }}</a></td>
     <td>{{ .State }}</td>
-    <td>{{ .CreatedAt.Format "2006-01-02 15:04:05" }}</td>
+    <td>{{ .UpdatedAt.Format "2006-01-02 15:04:05" }}</td>
 </tr>
 {{ end }}
 </table>
