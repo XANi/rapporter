@@ -30,7 +30,6 @@ func DBTestInit(t *testing.T) *DB {
 	if len(dsn) < 1 {
 		dsn = t.TempDir() + "/t.sqlite"
 	}
-	dsn = dsn + "?_journal_mode=WAL"
 	db, err := New(Config{
 		DSN:    dsn,
 		DbType: "sqlite",

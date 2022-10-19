@@ -37,7 +37,7 @@ func New(cfg Config) (*DB, error) {
 	}
 	switch cfg.DbType {
 	case "sqlite":
-		dbConn, err = gorm.Open(sqlite.Open(cfg.DSN), dbCfg)
+		dbConn, err = gorm.Open(sqlite.Open(cfg.DSN+"?_journal_mode=WAL&_synchronous=NORMAL"), dbCfg)
 	case "pgsql":
 		dbConn, err = gorm.Open(postgres.Open(cfg.DSN), dbCfg)
 	default:

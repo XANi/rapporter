@@ -65,7 +65,6 @@ func BenchmarkDB_AddReport(b *testing.B) {
 	if len(dsn) < 1 {
 		dsn = b.TempDir() + "/t.sqlite"
 	}
-	dsn = dsn + "?_journal_mode=WAL"
 	db, err := New(Config{
 		DSN:    dsn,
 		DbType: "sqlite",
@@ -96,7 +95,6 @@ func BenchmarkDB_UpdateReport(b *testing.B) {
 	if len(dsn) < 1 {
 		dsn = b.TempDir() + "/t.sqlite"
 	}
-	dsn = dsn + "?_journal_mode=WAL"
 	db, err := New(Config{
 		DSN:    dsn,
 		DbType: "sqlite",
