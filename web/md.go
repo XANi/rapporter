@@ -2,6 +2,7 @@ package web
 
 import (
 	"github.com/gomarkdown/markdown"
+	mdhtml "github.com/gomarkdown/markdown/html"
 	"github.com/gomarkdown/markdown/parser"
 	"github.com/microcosm-cc/bluemonday"
 	"html"
@@ -14,7 +15,9 @@ func (b *WebBackend) markdownParse(s string) string {
 	// turn back lt and gt into proper characters
 	md = []byte(html.UnescapeString(string(md)))
 	extensions := parser.CommonExtensions
+	// parser can't be cached, must be one instance per ToHTML call... for some reason
 	p := parser.NewWithExtensions(extensions)
-	mdhtml := markdown.ToHTML(md, p, nil)
+	htmlRenderer := mdhtml.NewRenderer(mdhtml.RendererOptions{})
+	mdhtml := markdown.ToHTML(md, p, htmlRenderer)
 	return string(mdhtml)
 }

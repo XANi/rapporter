@@ -81,9 +81,7 @@ func New(cfg Config, webFS fs.FS) (backend *WebBackend, err error) {
 		httpFS.ServeHTTP(c.Writer, c.Request)
 	})
 	r.GET("/", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "index.tmpl", gin.H{
-			"title": c.Request.RemoteAddr,
-		})
+		c.HTML(http.StatusOK, "index.tmpl", gin.H{})
 	})
 	r.NoRoute(func(c *gin.Context) {
 		c.HTML(http.StatusNotFound, "404.tmpl", gin.H{
@@ -94,7 +92,6 @@ func New(cfg Config, webFS fs.FS) (backend *WebBackend, err error) {
 		reports, _ := w.db.GetLatestReports()
 		cfg.Logger.Infof("reports: %d", len(reports))
 		c.HTML(http.StatusOK, "list.tmpl", gin.H{
-			"title":   c.Request.RemoteAddr,
 			"reports": reports,
 		})
 	})
@@ -112,7 +109,7 @@ func New(cfg Config, webFS fs.FS) (backend *WebBackend, err error) {
 		content := w.markdownParse(report.Content)
 
 		c.HTML(http.StatusOK, "report.tmpl", gin.H{
-			"title":   c.Request.RemoteAddr,
+			"title":   report.Title,
 			"report":  report,
 			"content": template.HTML(content),
 		})
