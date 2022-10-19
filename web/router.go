@@ -106,9 +106,12 @@ func New(cfg Config, webFS fs.FS) (backend *WebBackend, err error) {
 			c.String(http.StatusNotFound, "not found")
 			return
 		}
+		content := w.markdownParse(report.Content)
+
 		c.HTML(http.StatusOK, "report.tmpl", gin.H{
-			"title":  c.Request.RemoteAddr,
-			"report": report,
+			"title":   c.Request.RemoteAddr,
+			"report":  report,
+			"content": template.HTML(content),
 		})
 	})
 	rav1 := r.Group("/api/v1")
