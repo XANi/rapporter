@@ -92,6 +92,13 @@ func (w *WebBackend) V1PostReport(c *gin.Context) {
 		} else {
 			r.Title = componentId
 		}
+		if len(c.GetHeader("x-report-expire-in")) > 0 {
+			ttl, _ := strconv.Atoi(c.GetHeader("x-report-expire-in"))
+			r.ExpireIn = uint(ttl)
+		}
+		if len(c.GetHeader("x-report-category")) > 0 {
+			r.Category = c.GetHeader("x-report-category")
+		}
 	}
 	r.DeviceID = deviceId
 	r.ComponentID = componentId

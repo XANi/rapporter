@@ -89,6 +89,21 @@ func (db *DB) cleaner() {
 		if q.Error != nil && q.Error != gorm.ErrRecordNotFound {
 			db.l.Warnf("error running cleanup: %s", q.Error)
 		}
+		q = db.d.Exec("DELETE FROM report_state WHERE expires_at < ?", time.Now())
+		if q.RowsAffected > 0 {
+			db.l.Infof("deleted %d expired records", q.RowsAffected)
+		}
+		if q.Error != nil && q.Error != gorm.ErrRecordNotFound {
+			db.l.Warnf("error running cleanup: %s", q.Error)
+		}
+		q = db.d.Exec("UPDATE report_state SET state = 4 WHERE invalid_at < ?", time.Now())
+		if q.RowsAffected > 0 {
+			db.l.Infof("deleted %d expired records", q.RowsAffected)
+		}
+		if q.Error != nil && q.Error != gorm.ErrRecordNotFound {
+			db.l.Warnf("error running cleanup: %s", q.Error)
+		}
+
 		time.Sleep(time.Hour * 10)
 	}
 }

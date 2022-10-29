@@ -14,6 +14,7 @@ type Report struct {
 	DeviceID    string    `gorm:"primaryKey;length:255" json:"device_id"`
 	ComponentID string    `gorm:"primaryKey;length:255" json:"component_id"`
 	TTL         uint      `json:"ttl"`
+	ExpireIn    uint      `json:"expire_in"`
 	State       mon.State `json:"state"`
 	Content     string    `json:"content"`
 }
@@ -34,12 +35,19 @@ func (r *Report) Validate() error {
 	if r.State < 1 || r.State > mon.StateUnknown {
 		return fmt.Errorf("state must be between 1(ok) and 4(unknown)")
 	}
+	if r.TTL > 86400*365 {
+		return fmt.Errorf("TTL must be less than a year")
+	}
+	if r.ExpireIn > 86400*365 {
+		return fmt.Errorf("ExpireIn must be less than a year")
+	}
 	return nil
 }
 
 type ReportState struct {
 	Report    Report `gorm:"embedded"`
 	ExpiresAt time.Time
+	InvalidAt time.Time
 }
 
 type ReportHistory struct {

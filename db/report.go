@@ -13,8 +13,14 @@ func (db *DB) AddReport(r Report) (id int, err error) {
 	if db.cfg.MaxExpiryInterval > 0 && r.TTL > uint(db.cfg.MaxExpiryInterval.Seconds()) {
 		r.TTL = uint(db.cfg.MaxExpiryInterval.Seconds())
 	}
+	expire := uint(db.cfg.MaxExpiryInterval.Seconds())
+	invalid := r.TTL
+	if r.ExpireIn > 0 {
+		expire = r.ExpireIn
+	}
 	reportS := ReportState{
-		ExpiresAt: time.Now().Add(time.Duration(r.TTL) * time.Second),
+		ExpiresAt: time.Now().Add(time.Duration(expire) * time.Second),
+		InvalidAt: time.Now().Add(time.Duration(invalid) * time.Second),
 		Report:    r,
 	}
 	reportH := ReportHistory{
