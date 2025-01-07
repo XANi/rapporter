@@ -88,6 +88,7 @@ func New(cfg Config, webFS fs.FS) (backend *WebBackend, err error) {
 			"notfound": c.Request.URL.Path,
 		})
 	})
+
 	r.GET("/list", func(c *gin.Context) {
 		reports, _ := w.db.GetLatestReports()
 		cfg.Logger.Infof("reports: %d", len(reports))

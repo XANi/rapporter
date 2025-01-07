@@ -80,6 +80,7 @@ func New(cfg Config) (*DB, error) {
 }
 
 func (db *DB) cleaner() {
+	db.l.Infof("cleaner set to remove reports older than %d days", db.cfg.HistoryDays)
 	for {
 		q := db.d.Exec("DELETE FROM report_history WHERE created_at < ?",
 			time.Now().Add(-1*time.Hour*time.Duration(24*db.cfg.HistoryDays)))

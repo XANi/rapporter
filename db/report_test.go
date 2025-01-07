@@ -43,7 +43,7 @@ func TestDB_DeleteReport(t *testing.T) {
 	require.NoError(t, err)
 	reports, err := db.GetLatestReports()
 	require.NoError(t, err)
-	for id, _ := range reports {
+	for id := range reports {
 		reports[id].CreatedAt = r.CreatedAt
 		reports[id].UpdatedAt = r.UpdatedAt
 	}
@@ -52,7 +52,7 @@ func TestDB_DeleteReport(t *testing.T) {
 	assert.NoError(t, err)
 	reports, err = db.GetLatestReports()
 	require.NoError(t, err)
-	for id, _ := range reports {
+	for id := range reports {
 		reports[id].CreatedAt = r.CreatedAt
 		reports[id].UpdatedAt = r.UpdatedAt
 	}
