@@ -36,7 +36,7 @@ func SendReport(url string, report db.Report) error {
 	defer resp.Body.Close()
 	body, _ := ioutil.ReadAll(resp.Body)
 	if resp.StatusCode != http.StatusOK {
-		return fmt.Errorf("err: [%d %s] %s[%s}", resp.StatusCode, resp.Status, string(body))
+		return fmt.Errorf("err: [%d %s] %s", resp.StatusCode, resp.Status, string(body))
 	}
 	return nil
 }
