@@ -4,6 +4,7 @@ go 1.22
 
 require (
 	github.com/efigence/go-mon v1.3.1
+	github.com/gin-contrib/zap v1.1.4
 	github.com/gin-gonic/gin v1.10.0
 	github.com/gomarkdown/markdown v0.0.0-20221013030248-663e2500819c
 	github.com/microcosm-cc/bluemonday v1.0.21
@@ -26,7 +27,6 @@ require (
 	github.com/efigence/go-libs v0.0.0-20171115061947-5b2936a0c2a1 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.5 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
-	github.com/gin-contrib/zap v1.1.4 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
 	github.com/go-playground/validator/v10 v10.22.0 // indirect

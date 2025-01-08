@@ -11,7 +11,7 @@ jobs:
       steps:
       - uses: actions/setup-go@v3
         with:
-          go-version: 1.18
+          go-version: 1.22
       - uses: actions/checkout@v3
       - run: go test -v ./...
     build:
@@ -19,7 +19,7 @@ jobs:
       steps:
       - uses: actions/setup-go@v3
         with:
-          go-version: 1.18
+          go-version: 1.22
       - uses: actions/checkout@v3
       - run: make arch
       - name: Create Release

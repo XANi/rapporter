@@ -53,7 +53,7 @@ func New(cfg Config) (*DB, error) {
 		cfg.MaxExpiryInterval = time.Hour * 24 * 30
 	}
 	if cfg.HistoryDays == 0 {
-		cfg.HistoryDays = 365 * 5
+		cfg.HistoryDays = 365
 	}
 	var dbObj DB
 	if cfg.Logger != nil {

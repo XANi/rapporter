@@ -114,7 +114,7 @@ func main() {
 		dbh, err := db.New(db.Config{
 			DSN:    c.String("dsn"),
 			DbType: c.String("db-type"),
-			Logger: nil,
+			Logger: log.Named("db"),
 		})
 
 		w, err := web.New(web.Config{
